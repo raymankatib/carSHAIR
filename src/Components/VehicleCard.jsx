@@ -12,7 +12,6 @@ const VehicleCard = ({ vehicle }) => {
 			borderWidth="1px"
 			borderRadius="lg"
 			overflow="hidden"
-			mt="10px"
 			cursor="pointer"
 		>
 			<Image src={vehicle.image} alt={'property.imageAlt'} />

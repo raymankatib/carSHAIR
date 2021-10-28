@@ -35,7 +35,7 @@ const VehiclesGrid = ({ getAllVehicles, vehiclesList, isVehiclesLoading, userSea
 	}, [userSearchValue]);
 
 	return !isVehiclesLoading ? (
-		<SimpleGrid columns={[1, 2, 3, 4]} spacing="40px">
+		<SimpleGrid mt="10px" columns={[1, 2, 3, 4]} spacing="40px">
 			{renderedList.map((vehicle, i) => (
 				<VehicleCard key={i} vehicle={vehicle} />
 			))}
