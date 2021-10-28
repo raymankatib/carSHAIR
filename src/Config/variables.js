@@ -5,3 +5,7 @@ export const imagesList = [
 	'https://images.hgmsites.net/hug/2015-mercedes-benz-c-class_100474442_h.jpg',
 	'https://media.autoexpress.co.uk/image/private/s--_tzUzh7f--/v1576263406/autoexpress/2019/12/01_5.jpg'
 ];
+
+export const colors = {
+	mainGreen: '#319795'
+};
