@@ -31,6 +31,9 @@ const vehicles = {
 	effects: (dispatch) => ({
 		async getAllVehiclesAction(payload, rootState) {
 			try {
+				function getRandomNumber(min, max) {
+					return Math.floor(Math.random() * (max - min + 1) + min);
+				}
 				dispatch.vehicles.isVehiclesLoading(true);
 				const {
 					data: { Results: vehiclesList }
@@ -41,10 +44,10 @@ const vehicles = {
 					let vehiclesListCopy = [...vehiclesList].slice(0, 100);
 
 					vehiclesListCopy.forEach((vehicle, i) => {
-						vehicle.price = Math.floor(Math.random() * (800 - 120 + 1) + 120);
-						vehicle.rate = Math.floor(Math.random() * (5 - 1 + 1) + 1);
-						vehicle.milage = Math.floor(Math.random() * (50000 - 200 + 1) + 200);
-						vehicle.madeYear = Math.floor(Math.random() * (2022 - 1999 + 1) + 1999);
+						vehicle.price = getRandomNumber(120, 800);
+						vehicle.rate = getRandomNumber(1, 5);
+						vehicle.milage = getRandomNumber(200, 50000);
+						vehicle.madeYear = getRandomNumber(1999, 2022);
 						if (!vehicle.Model_Name) vehicle.Model_Name = '';
 						if (!vehicle.VehicleTypeName) vehicle.VehicleTypeName = i % 2 === 0 ? 'Truck' : 'Passenger Car';
 					});

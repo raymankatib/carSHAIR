@@ -11,8 +11,8 @@ const VehiclesGrid = ({ getAllVehicles, vehiclesList }) => {
 
 	return (
 		<SimpleGrid columns={[2, 3, 4]} spacing="40px">
-			{vehiclesList.map((vehicle) => (
-				<VehicleCard vehicle={vehicle} />
+			{vehiclesList.map((vehicle, i) => (
+				<VehicleCard key={i} vehicle={vehicle} />
 			))}
 		</SimpleGrid>
 	);
