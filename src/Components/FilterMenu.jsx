@@ -15,6 +15,7 @@ import {
 	Button
 } from '@chakra-ui/react';
 import { MdFilterList } from 'react-icons/md';
+import AccordionComponent from './AccordionComponent';
 
 const FilterMenu = (props) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
@@ -29,7 +30,9 @@ const FilterMenu = (props) => {
 				<ModalContent>
 					<ModalHeader>Advance filter</ModalHeader>
 					<ModalCloseButton />
-					<ModalBody>{/* <Lorem count={2} /> */}</ModalBody>
+					<ModalBody>
+						<AccordionComponent />
+					</ModalBody>
 
 					<ModalFooter>
 						<Button colorScheme="red" mr={3} onClick={onClose}>

@@ -9,3 +9,7 @@ export const imagesList = [
 export const colors = {
 	mainGreen: '#319795'
 };
+
+export const carMakeList = ['TESLA', 'MAZDA', 'JAGUAR', 'MASERATI', 'TOYOTA', 'BMW'];
+
+export const carTypeList = ['CAR', 'TRUCK'];
