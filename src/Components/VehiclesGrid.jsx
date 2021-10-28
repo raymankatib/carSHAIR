@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { SimpleGrid } from '@chakra-ui/react';
 import { css } from '@emotion/react';
@@ -12,14 +12,31 @@ const override = css`
 	border-color: ${colors.mainGreen};
 `;
 
-const VehiclesGrid = ({ getAllVehicles, vehiclesList, isVehiclesLoading }) => {
+const VehiclesGrid = ({ getAllVehicles, vehiclesList, isVehiclesLoading, userSearchValue }) => {
+	const [renderedList, setRenderedList] = useState(vehiclesList);
 	useEffect(() => {
-		getAllVehicles();
+		async function getData() {
+			const data = await getAllVehicles();
+			setRenderedList(data);
+		}
+		getData();
 	}, []);
+
+	useEffect(() => {
+		if (userSearchValue.length > 0) {
+			const vehiclesListClone = [...vehiclesList];
+			const filteredSearchList = vehiclesListClone.filter((vehicle) =>
+				vehicle.Make_Name.toUpperCase().match(new RegExp(userSearchValue, 'i'))
+			);
+			setRenderedList(filteredSearchList);
+		} else {
+			setRenderedList(vehiclesList);
+		}
+	}, [userSearchValue]);
 
 	return !isVehiclesLoading ? (
 		<SimpleGrid columns={[1, 2, 3, 4]} spacing="40px">
-			{vehiclesList.map((vehicle, i) => (
+			{renderedList.map((vehicle, i) => (
 				<VehicleCard key={i} vehicle={vehicle} />
 			))}
 		</SimpleGrid>
@@ -28,9 +45,10 @@ const VehiclesGrid = ({ getAllVehicles, vehiclesList, isVehiclesLoading }) => {
 	);
 };
 
-const mapStateToProps = ({ vehicles: { vehiclesList, isVehiclesLoading } }) => ({
+const mapStateToProps = ({ vehicles: { vehiclesList, isVehiclesLoading, userSearchValue } }) => ({
 	vehiclesList: vehiclesList,
-	isVehiclesLoading: isVehiclesLoading
+	isVehiclesLoading: isVehiclesLoading,
+	userSearchValue: userSearchValue
 });
 
 const mapDispatchToProps = ({ vehicles: { getAllVehiclesAction } }) => ({

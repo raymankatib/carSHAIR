@@ -1,14 +1,8 @@
 import React from 'react';
 import { Box, Badge, Image } from '@chakra-ui/react';
 import { StarIcon } from '@chakra-ui/icons';
-import { imagesList } from '../Config/variables';
 
 const VehicleCard = ({ vehicle }) => {
-	function randomCarImage() {
-		const randomNum = Math.floor(Math.random() * imagesList.length);
-		return imagesList[randomNum];
-	}
-
 	return (
 		<Box
 			_hover={{
@@ -21,7 +15,7 @@ const VehicleCard = ({ vehicle }) => {
 			mt="10px"
 			cursor="pointer"
 		>
-			<Image src={randomCarImage()} alt={'property.imageAlt'} />
+			<Image src={vehicle.image} alt={'property.imageAlt'} />
 			<Box p="6">
 				<Box mt="1" fontWeight="semibold" as="h4" lineHeight="tight" isTruncated>
 					{vehicle.Make_Name}

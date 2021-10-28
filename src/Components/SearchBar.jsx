@@ -1,12 +1,22 @@
+import { useRef } from 'react';
 import { Input } from '@chakra-ui/react';
 import { connect } from 'react-redux';
 
-const SearchBar = () => {
-	return <Input variant="filled" placeholder="Search for vehicles" />;
+const SearchBar = ({ setUserSerachValue }) => {
+	const userSearchRef = useRef();
+
+	function handleChangeInput() {
+		const userInput = userSearchRef.current.value.toUpperCase();
+		setUserSerachValue(userInput);
+	}
+
+	return <Input ref={userSearchRef} onChange={handleChangeInput} variant="filled" placeholder="Search for vehicles" />;
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = () => ({});
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = ({ vehicles: { setUserSerachValueAction } }) => ({
+	setUserSerachValue: setUserSerachValueAction
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchBar);
