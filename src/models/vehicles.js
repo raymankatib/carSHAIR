@@ -146,6 +146,14 @@ const vehicles = {
 
 				return filterdDataCopyWithDummyData;
 			}
+		},
+		clearFilterAction(payload, rootState) {
+			dispatch.vehicles.vehicleMake('');
+			dispatch.vehicles.vehicleMake('');
+			dispatch.vehicles.yearValue('');
+			dispatch.vehicles.vehicleType('');
+			dispatch.vehicles.priceRangeValues('');
+			dispatch.vehicles.filterdDataResponse([]);
 		}
 	})
 };

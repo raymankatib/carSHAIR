@@ -4,6 +4,7 @@ import './App.css';
 import SearchBar from './Components/SearchBar';
 import VehiclesGrid from './Components/VehiclesGrid';
 import FilterMenu from './Components/FilterMenu';
+import ClearFilter from './Components/ClearFilter';
 
 function App() {
 	return (
@@ -11,6 +12,7 @@ function App() {
 			<Box w="50%" d="flex" justifyContent="space-between">
 				<SearchBar />
 				<FilterMenu />
+				<ClearFilter />
 			</Box>
 			<VehiclesGrid />
 		</Box>

@@ -44,6 +44,8 @@ const VehiclesGrid = ({
 	useEffect(() => {
 		if (filterdDataResponse && filterdDataResponse.length > 0) {
 			setRenderedList(filterdDataResponse);
+		} else {
+			setRenderedList(vehiclesList);
 		}
 	}, [JSON.stringify(filterdDataResponse)]);
 

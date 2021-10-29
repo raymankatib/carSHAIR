@@ -16,6 +16,7 @@ import {
 } from '@chakra-ui/react';
 import { MdFilterList } from 'react-icons/md';
 import AccordionComponent from './AccordionComponent';
+import ClearFilter from './ClearFilter';
 
 const FilterMenu = ({ submitFilterValues }) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
@@ -39,7 +40,7 @@ const FilterMenu = ({ submitFilterValues }) => {
 					</ModalBody>
 
 					<ModalFooter>
-						<Button colorScheme="red" mr={3} onClick={onClose}>
+						<Button ml="10px" colorScheme="red" mr={3} onClick={onClose}>
 							Close
 						</Button>
 						<Button onClick={handleApplyFilter} colorScheme="teal">
