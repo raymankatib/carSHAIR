@@ -113,6 +113,28 @@ const vehicles = {
 		},
 		setPriceRangeValuesAction(payload, rootState) {
 			return dispatch.vehicles.priceRangeValues(payload);
+		},
+		async submitFilterValuesAction(payload, rootState) {
+			const { vehicleMake, vehicleType, yearValue, priceRangeValues } = rootState.vehicles;
+			console.log(vehicleMake, vehicleType, yearValue, priceRangeValues);
+			let url = '';
+			if (vehicleMake && vehicleType && yearValue) {
+				url = `/vehicles/GetModelsForMakeYear/make/${vehicleMake}/modelyear/${yearValue}/vehicletype/${vehicleType}?format=json`;
+			} else if (vehicleMake && vehicleType) {
+				url = `/vehicles/GetModelsForMakeYear/make/${vehicleMake}/vehicletype/${vehicleType}?format=json`;
+			} else if (vehicleMake && yearValue) {
+				url = `/vehicles/GetModelsForMakeYear/make/${vehicleMake}/modelyear/${yearValue}?format=json`;
+			} else if (vehicleMake && !yearValue && !vehicleType) {
+				url = `/vehicles/GetModelsForMake/${vehicleMake}?format=json`;
+			}
+			dispatch.vehicles.isVehiclesLoading(true);
+
+			const {
+				data: { Results: filterdDataResponse }
+			} = await axios.get(`${BASE_URL}${url}`);
+			dispatch.vehicles.isVehiclesLoading(false);
+
+			console.log(filterdDataResponse);
 		}
 	})
 };

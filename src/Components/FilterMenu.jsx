@@ -17,8 +17,12 @@ import {
 import { MdFilterList } from 'react-icons/md';
 import AccordionComponent from './AccordionComponent';
 
-const FilterMenu = (props) => {
+const FilterMenu = ({ submitFilterValues }) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
+
+	const handleApplyFilter = () => {
+		submitFilterValues();
+	};
 
 	return (
 		<>
@@ -38,7 +42,9 @@ const FilterMenu = (props) => {
 						<Button colorScheme="red" mr={3} onClick={onClose}>
 							Close
 						</Button>
-						<Button colorScheme="teal">Apply</Button>
+						<Button onClick={handleApplyFilter} colorScheme="teal">
+							Apply
+						</Button>
 					</ModalFooter>
 				</ModalContent>
 			</Modal>
@@ -48,6 +54,8 @@ const FilterMenu = (props) => {
 
 const mapStateToProps = (state) => ({});
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = ({ vehicles: { submitFilterValuesAction } }) => ({
+	submitFilterValues: submitFilterValuesAction
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(FilterMenu);
