@@ -41,7 +41,11 @@ function PaginationComponent({ itemsPerPage, renderedList, message, filterdDataR
 		const newOffset = (event.selected * itemsPerPage) % items.length;
 		console.log(`User requested page number ${event.selected}, which is offset ${newOffset}`);
 		setItemOffset(newOffset);
-		document.body.scrollTop = document.documentElement.scrollTop = 0;
+		window.scroll({
+			top: 0,
+			left: 0,
+			behavior: 'smooth'
+		});
 	};
 
 	return (
