@@ -10,7 +10,8 @@ const vehicles = {
 		error: '',
 		isVehiclesLoading: false,
 		userSearchValue: '',
-		message: ''
+		message: '',
+		filterdCleared: false
 	},
 	reducers: {
 		vehiclesList(state, payload) {
@@ -72,12 +73,19 @@ const vehicles = {
 				...state,
 				message: payload
 			};
+		},
+		filterdCleared(state, payload) {
+			return {
+				...state,
+				filterdCleared: payload
+			};
 		}
 	},
 	effects: (dispatch) => ({
 		async getAllVehiclesAction(payload, rootState) {
 			try {
 				dispatch.vehicles.isVehiclesLoading(true);
+
 				const {
 					data: { Results: vehiclesList }
 				} = await axios.get(`${BASE_URL}/vehicles/getallmakes?format=json`);
@@ -157,8 +165,9 @@ const vehicles = {
 			dispatch.vehicles.yearValue('');
 			dispatch.vehicles.message('');
 			dispatch.vehicles.vehicleType('');
-			dispatch.vehicles.priceRangeValues(null);
+			dispatch.vehicles.priceRangeValues([120, 800]);
 			dispatch.vehicles.filterdDataResponse(null);
+			dispatch.vehicles.filterdCleared(!rootState.vehicles.filterdCleared);
 		}
 	})
 };

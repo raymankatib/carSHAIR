@@ -4,8 +4,16 @@ body {
 		'Droid Sans', 'Helvetica Neue', sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+	scroll-behavior: smooth;
 }
 
 code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+.pagination {
+	margin: 1rem auto;
+	list-style: none;
+	display: flex !important;
+	justify-content: space-evenly;
+	width: 50%;
 }

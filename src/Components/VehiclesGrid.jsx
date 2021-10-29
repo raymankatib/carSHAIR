@@ -6,6 +6,8 @@ import MoonLoader from 'react-spinners/MoonLoader';
 
 import VehicleCard from './VehicleCard';
 import { colors } from '../Config/variables';
+import PaginationComponent from './PaginationComponent';
+
 const override = css`
 	display: block;
 	margin: 20% auto;
@@ -19,7 +21,8 @@ const VehiclesGrid = ({
 	userSearchValue,
 	filterdDataResponse,
 	message,
-	priceRangeValues
+	priceRangeValues,
+	filterdCleared
 }) => {
 	const [renderedList, setRenderedList] = useState(vehiclesList);
 	useEffect(() => {
@@ -48,7 +51,7 @@ const VehiclesGrid = ({
 		} else {
 			setRenderedList(vehiclesList);
 		}
-	}, [JSON.stringify(filterdDataResponse)]);
+	}, [JSON.stringify(filterdDataResponse), filterdDataResponse]);
 
 	useEffect(() => {
 		if (priceRangeValues && priceRangeValues.length > 0) {
@@ -66,24 +69,35 @@ const VehiclesGrid = ({
 		}
 	}, [JSON.stringify(priceRangeValues), priceRangeValues]);
 
+	useEffect(() => {
+		setRenderedList(vehiclesList);
+	}, [filterdCleared]);
+
 	return !isVehiclesLoading ? (
-		<SimpleGrid mt="50px" columns={[1, 2, 3, 4]} spacing="40px">
-			{!message ? renderedList.map((vehicle, i) => <VehicleCard key={i} vehicle={vehicle} />) : message}
-		</SimpleGrid>
+		<PaginationComponent renderedList={renderedList} message={message} />
 	) : (
 		<MoonLoader color={colors.mainGreen} loading={isVehiclesLoading} css={override} size={100} />
 	);
 };
 
 const mapStateToProps = ({
-	vehicles: { vehiclesList, isVehiclesLoading, userSearchValue, filterdDataResponse, message, priceRangeValues }
+	vehicles: {
+		vehiclesList,
+		isVehiclesLoading,
+		userSearchValue,
+		filterdDataResponse,
+		message,
+		priceRangeValues,
+		filterdCleared
+	}
 }) => ({
 	vehiclesList: vehiclesList,
 	isVehiclesLoading: isVehiclesLoading,
 	userSearchValue: userSearchValue,
 	filterdDataResponse: filterdDataResponse,
 	message: message,
-	priceRangeValues: priceRangeValues
+	priceRangeValues: priceRangeValues,
+	filterdCleared: filterdCleared
 });
 
 const mapDispatchToProps = ({ vehicles: { getAllVehiclesAction } }) => ({
