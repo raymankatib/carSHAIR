@@ -1,26 +1,22 @@
 import React from 'react';
-import { RangeSlider, RangeSliderTrack, RangeSliderFilledTrack, RangeSliderThumb } from '@chakra-ui/react';
 import { connect } from 'react-redux';
+import { Range } from 'rc-slider';
+import 'rc-slider/assets/index.css';
 
 export const RangeSliderComponent = ({ setPriceRangeValues, priceRangeValues }) => {
 	function handleSliderChanges(values) {
 		return setPriceRangeValues(values);
 	}
 	return (
-		<RangeSlider
-			min={120}
-			max={800}
-			aria-label={''}
-			defaultValue={priceRangeValues || [120, 800]}
-			onChangeEnd={handleSliderChanges}
-			colorScheme="teal"
-		>
-			<RangeSliderThumb index={0} />
-			<RangeSliderThumb index={1} />
-			<RangeSliderTrack>
-				<RangeSliderFilledTrack />
-			</RangeSliderTrack>
-		</RangeSlider>
+		<>
+			<Range
+				min={120}
+				max={800}
+				step={1}
+				defaultValue={priceRangeValues || [120, 800]}
+				onChange={handleSliderChanges}
+			/>
+		</>
 	);
 };
 
