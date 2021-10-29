@@ -23,6 +23,7 @@ const FilterMenu = ({ submitFilterValues }) => {
 
 	const handleApplyFilter = () => {
 		submitFilterValues();
+		onClose();
 	};
 
 	return (
