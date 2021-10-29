@@ -12,7 +12,14 @@ const override = css`
 	border-color: ${colors.mainGreen};
 `;
 
-const VehiclesGrid = ({ getAllVehicles, vehiclesList, isVehiclesLoading, userSearchValue }) => {
+const VehiclesGrid = ({
+	getAllVehicles,
+	vehiclesList,
+	isVehiclesLoading,
+	userSearchValue,
+	filterdDataResponse,
+	message
+}) => {
 	const [renderedList, setRenderedList] = useState(vehiclesList);
 	useEffect(() => {
 		async function getData() {
@@ -34,21 +41,29 @@ const VehiclesGrid = ({ getAllVehicles, vehiclesList, isVehiclesLoading, userSea
 		}
 	}, [userSearchValue]);
 
+	useEffect(() => {
+		if (filterdDataResponse && filterdDataResponse.length > 0) {
+			setRenderedList(filterdDataResponse);
+		}
+	}, [JSON.stringify(filterdDataResponse)]);
+
 	return !isVehiclesLoading ? (
 		<SimpleGrid mt="10px" columns={[1, 2, 3, 4]} spacing="40px">
-			{renderedList.map((vehicle, i) => (
-				<VehicleCard key={i} vehicle={vehicle} />
-			))}
+			{!message ? renderedList.map((vehicle, i) => <VehicleCard key={i} vehicle={vehicle} />) : message}
 		</SimpleGrid>
 	) : (
 		<MoonLoader color={colors.mainGreen} loading={isVehiclesLoading} css={override} size={100} />
 	);
 };
 
-const mapStateToProps = ({ vehicles: { vehiclesList, isVehiclesLoading, userSearchValue } }) => ({
+const mapStateToProps = ({
+	vehicles: { vehiclesList, isVehiclesLoading, userSearchValue, filterdDataResponse, message }
+}) => ({
 	vehiclesList: vehiclesList,
 	isVehiclesLoading: isVehiclesLoading,
-	userSearchValue: userSearchValue
+	userSearchValue: userSearchValue,
+	filterdDataResponse: filterdDataResponse,
+	message: message
 });
 
 const mapDispatchToProps = ({ vehicles: { getAllVehiclesAction } }) => ({

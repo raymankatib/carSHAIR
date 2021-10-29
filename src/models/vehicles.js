@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { imagesList } from '../Config/variables';
+import { addDummyData } from '../utils/HelperFunctions';
 
 const BASE_URL = 'https://vpic.nhtsa.dot.gov/api';
 
@@ -9,7 +9,8 @@ const vehicles = {
 		vehiclesList: [],
 		error: '',
 		isVehiclesLoading: false,
-		userSearchValue: ''
+		userSearchValue: '',
+		message: ''
 	},
 	reducers: {
 		vehiclesList(state, payload) {
@@ -59,18 +60,23 @@ const vehicles = {
 				...state,
 				priceRangeValues: payload
 			};
+		},
+		filterdDataResponse(state, payload) {
+			return {
+				...state,
+				filterdDataResponse: payload
+			};
+		},
+		message(state, payload) {
+			return {
+				...state,
+				message: payload
+			};
 		}
 	},
 	effects: (dispatch) => ({
 		async getAllVehiclesAction(payload, rootState) {
 			try {
-				function getRandomNumber(min, max) {
-					return Math.floor(Math.random() * (max - min + 1) + min);
-				}
-				function randomCarImage() {
-					const randomNum = Math.floor(Math.random() * imagesList.length);
-					return imagesList[randomNum];
-				}
 				dispatch.vehicles.isVehiclesLoading(true);
 				const {
 					data: { Results: vehiclesList }
@@ -79,17 +85,9 @@ const vehicles = {
 				// add some dummy data
 				if (vehiclesList) {
 					let vehiclesListCopy = [...vehiclesList].slice(0, 100);
+					const vehiclesWithDummyData = addDummyData(vehiclesListCopy);
 
-					vehiclesListCopy.forEach((vehicle, i) => {
-						vehicle.price = getRandomNumber(120, 800);
-						vehicle.rate = getRandomNumber(1, 5);
-						vehicle.milage = getRandomNumber(200, 50000);
-						vehicle.madeYear = getRandomNumber(1999, 2022);
-						vehicle.image = randomCarImage();
-						if (!vehicle.Model_Name) vehicle.Model_Name = '';
-						if (!vehicle.VehicleTypeName) vehicle.VehicleTypeName = i % 2 === 0 ? 'Truck' : 'Passenger Car';
-					});
-					dispatch.vehicles.vehiclesList(vehiclesListCopy);
+					dispatch.vehicles.vehiclesList(vehiclesWithDummyData);
 
 					return vehiclesListCopy;
 				}
@@ -128,13 +126,26 @@ const vehicles = {
 				url = `/vehicles/GetModelsForMake/${vehicleMake}?format=json`;
 			}
 			dispatch.vehicles.isVehiclesLoading(true);
-
+			dispatch.vehicles.message('');
 			const {
-				data: { Results: filterdDataResponse }
+				data: { Results: filterdDataResponse, Count }
 			} = await axios.get(`${BASE_URL}${url}`);
 			dispatch.vehicles.isVehiclesLoading(false);
+			if (Count === 0) dispatch.vehicles.message('No vehicles match your filter!');
+			if (filterdDataResponse) {
+				let filterdDataResponseCopy = [...filterdDataResponse];
+				let filterdDataCopyWithDummyData;
+				// remove year dommy data if year or type selected by user
+				if (yearValue || vehicleType) {
+					filterdDataCopyWithDummyData = addDummyData(filterdDataResponseCopy, yearValue, vehicleType);
+				} else {
+					filterdDataCopyWithDummyData = addDummyData(filterdDataResponseCopy);
+				}
 
-			console.log(filterdDataResponse);
+				dispatch.vehicles.filterdDataResponse(filterdDataCopyWithDummyData);
+
+				return filterdDataCopyWithDummyData;
+			}
 		}
 	})
 };

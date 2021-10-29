@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { Input } from '@chakra-ui/react';
 import { connect } from 'react-redux';
 
-const SearchBar = ({ setUserSerachValue }) => {
+const SearchBar = ({ setUserSerachValue, filterdDataResponse }) => {
 	const userSearchRef = useRef();
 
 	function handleChangeInput() {
@@ -10,10 +10,18 @@ const SearchBar = ({ setUserSerachValue }) => {
 		setUserSerachValue(userInput);
 	}
 
-	return <Input ref={userSearchRef} onChange={handleChangeInput} variant="filled" placeholder="Search for vehicles" />;
+	return (
+		<Input
+			isDisabled={filterdDataResponse && filterdDataResponse.length > 0}
+			ref={userSearchRef}
+			onChange={handleChangeInput}
+			variant="filled"
+			placeholder="Search for vehicles"
+		/>
+	);
 };
 
-const mapStateToProps = () => ({});
+const mapStateToProps = ({ vehicles: { filterdDataResponse } }) => ({ filterdDataResponse: filterdDataResponse });
 
 const mapDispatchToProps = ({ vehicles: { setUserSerachValueAction } }) => ({
 	setUserSerachValue: setUserSerachValueAction
