@@ -10,9 +10,9 @@ export const RangeSliderComponent = ({ setPriceRangeValues, priceRangeValues }) 
 		<RangeSlider
 			min={120}
 			max={800}
-			defaultValue={priceRangeValues || [300, 600]}
-			onChange={handleSliderChanges}
-			aria-label={['min', 'max']}
+			aria-label={''}
+			defaultValue={priceRangeValues || [120, 800]}
+			onChangeEnd={handleSliderChanges}
 			colorScheme="teal"
 		>
 			<RangeSliderThumb index={0} />

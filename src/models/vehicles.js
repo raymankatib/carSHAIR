@@ -113,38 +113,42 @@ const vehicles = {
 			return dispatch.vehicles.priceRangeValues(payload);
 		},
 		async submitFilterValuesAction(payload, rootState) {
-			const { vehicleMake, vehicleType, yearValue, priceRangeValues } = rootState.vehicles;
-			console.log(vehicleMake, vehicleType, yearValue, priceRangeValues);
-			let url = '';
-			if (vehicleMake && vehicleType && yearValue) {
-				url = `/vehicles/GetModelsForMakeYear/make/${vehicleMake}/modelyear/${yearValue}/vehicletype/${vehicleType}?format=json`;
-			} else if (vehicleMake && vehicleType) {
-				url = `/vehicles/GetModelsForMakeYear/make/${vehicleMake}/vehicletype/${vehicleType}?format=json`;
-			} else if (vehicleMake && yearValue) {
-				url = `/vehicles/GetModelsForMakeYear/make/${vehicleMake}/modelyear/${yearValue}?format=json`;
-			} else if (vehicleMake && !yearValue && !vehicleType) {
-				url = `/vehicles/GetModelsForMake/${vehicleMake}?format=json`;
-			}
-			dispatch.vehicles.isVehiclesLoading(true);
-			dispatch.vehicles.message('');
-			const {
-				data: { Results: filterdDataResponse, Count }
-			} = await axios.get(`${BASE_URL}${url}`);
-			dispatch.vehicles.isVehiclesLoading(false);
-			if (Count === 0) dispatch.vehicles.message('No vehicles match your filter!');
-			if (filterdDataResponse) {
-				let filterdDataResponseCopy = [...filterdDataResponse];
-				let filterdDataCopyWithDummyData;
-				// remove year dommy data if year or type selected by user
-				if (yearValue || vehicleType) {
-					filterdDataCopyWithDummyData = addDummyData(filterdDataResponseCopy, yearValue, vehicleType);
-				} else {
-					filterdDataCopyWithDummyData = addDummyData(filterdDataResponseCopy);
+			try {
+				const { vehicleMake, vehicleType, yearValue } = rootState.vehicles;
+				let url = '';
+				if (vehicleMake && vehicleType && yearValue) {
+					url = `/vehicles/GetModelsForMakeYear/make/${vehicleMake}/modelyear/${yearValue}/vehicletype/${vehicleType}?format=json`;
+				} else if (vehicleMake && vehicleType) {
+					url = `/vehicles/GetModelsForMakeYear/make/${vehicleMake}/vehicletype/${vehicleType}?format=json`;
+				} else if (vehicleMake && yearValue) {
+					url = `/vehicles/GetModelsForMakeYear/make/${vehicleMake}/modelyear/${yearValue}?format=json`;
+				} else if (vehicleMake && !yearValue && !vehicleType) {
+					url = `/vehicles/GetModelsForMake/${vehicleMake}?format=json`;
 				}
+				dispatch.vehicles.isVehiclesLoading(true);
+				dispatch.vehicles.message('');
+				const {
+					data: { Results: filterdDataResponse, Count }
+				} = await axios.get(`${BASE_URL}${url}`);
+				dispatch.vehicles.isVehiclesLoading(false);
+				if (Count === 0) dispatch.vehicles.message('No vehicles match your filter!');
+				if (filterdDataResponse) {
+					let filterdDataResponseCopy = [...filterdDataResponse];
+					let filterdDataCopyWithDummyData;
+					// remove year dommy data if year or type selected by user
+					if (yearValue || vehicleType) {
+						filterdDataCopyWithDummyData = addDummyData(filterdDataResponseCopy, yearValue, vehicleType);
+					} else {
+						filterdDataCopyWithDummyData = addDummyData(filterdDataResponseCopy);
+					}
 
-				dispatch.vehicles.filterdDataResponse(filterdDataCopyWithDummyData);
+					dispatch.vehicles.filterdDataResponse(filterdDataCopyWithDummyData);
 
-				return filterdDataCopyWithDummyData;
+					return filterdDataCopyWithDummyData;
+				}
+			} catch (error) {
+				console.log(error);
+				return dispatch.vehicles.error("Coudn't fetch filtered data");
 			}
 		},
 		clearFilterAction(payload, rootState) {
@@ -152,7 +156,7 @@ const vehicles = {
 			dispatch.vehicles.vehicleMake('');
 			dispatch.vehicles.yearValue('');
 			dispatch.vehicles.vehicleType('');
-			dispatch.vehicles.priceRangeValues('');
+			dispatch.vehicles.priceRangeValues([120, 800]);
 			dispatch.vehicles.filterdDataResponse([]);
 		}
 	})

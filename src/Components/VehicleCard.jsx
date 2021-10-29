@@ -3,6 +3,7 @@ import { Box, Badge, Image } from '@chakra-ui/react';
 import { StarIcon } from '@chakra-ui/icons';
 
 const VehicleCard = ({ vehicle }) => {
+	if (vehicle && vehicle.inPriceRange === false) return '';
 	return (
 		<Box
 			_hover={{

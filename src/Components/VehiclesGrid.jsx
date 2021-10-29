@@ -18,7 +18,8 @@ const VehiclesGrid = ({
 	isVehiclesLoading,
 	userSearchValue,
 	filterdDataResponse,
-	message
+	message,
+	priceRangeValues
 }) => {
 	const [renderedList, setRenderedList] = useState(vehiclesList);
 	useEffect(() => {
@@ -49,6 +50,22 @@ const VehiclesGrid = ({
 		}
 	}, [JSON.stringify(filterdDataResponse)]);
 
+	useEffect(() => {
+		if (priceRangeValues && priceRangeValues.length > 1) {
+			const vehiclesInPriceRange = renderedList.map((item) => {
+				if (item.price > priceRangeValues[0] && item.price < priceRangeValues[1]) {
+					item.inPriceRange = true;
+				} else {
+					item.inPriceRange = false;
+				}
+				return item;
+			});
+			setRenderedList(vehiclesInPriceRange);
+		} else {
+			setRenderedList(vehiclesList);
+		}
+	}, [JSON.stringify(priceRangeValues)]);
+
 	return !isVehiclesLoading ? (
 		<SimpleGrid mt="50px" columns={[1, 2, 3, 4]} spacing="40px">
 			{!message ? renderedList.map((vehicle, i) => <VehicleCard key={i} vehicle={vehicle} />) : message}
@@ -59,13 +76,14 @@ const VehiclesGrid = ({
 };
 
 const mapStateToProps = ({
-	vehicles: { vehiclesList, isVehiclesLoading, userSearchValue, filterdDataResponse, message }
+	vehicles: { vehiclesList, isVehiclesLoading, userSearchValue, filterdDataResponse, message, priceRangeValues }
 }) => ({
 	vehiclesList: vehiclesList,
 	isVehiclesLoading: isVehiclesLoading,
 	userSearchValue: userSearchValue,
 	filterdDataResponse: filterdDataResponse,
-	message: message
+	message: message,
+	priceRangeValues: priceRangeValues
 });
 
 const mapDispatchToProps = ({ vehicles: { getAllVehiclesAction } }) => ({

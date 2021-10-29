@@ -16,7 +16,6 @@ import {
 } from '@chakra-ui/react';
 import { MdFilterList } from 'react-icons/md';
 import AccordionComponent from './AccordionComponent';
-import ClearFilter from './ClearFilter';
 
 const FilterMenu = ({ submitFilterValues }) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();

@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Box, Button } from '@chakra-ui/react';
+import { Button } from '@chakra-ui/react';
 
-const ClearFilter = ({ clearFilter, filterdDataResponse, message }) => {
+const ClearFilter = ({ clearFilter, filterdDataResponse, message, priceRangeValues }) => {
 	const handleClearFilter = () => {
 		clearFilter();
 	};
@@ -23,9 +23,10 @@ const ClearFilter = ({ clearFilter, filterdDataResponse, message }) => {
 	);
 };
 
-const mapStateToProps = ({ vehicles: { filterdDataResponse, message } }) => ({
+const mapStateToProps = ({ vehicles: { filterdDataResponse, message, priceRangeValues } }) => ({
 	filterdDataResponse: filterdDataResponse,
-	message: message
+	message: message,
+	priceRangeValues: priceRangeValues
 });
 
 const mapDispatchToProps = ({ vehicles: { clearFilterAction } }) => ({
