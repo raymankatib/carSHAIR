@@ -50,7 +50,7 @@ const VehiclesGrid = ({
 	}, [JSON.stringify(filterdDataResponse)]);
 
 	return !isVehiclesLoading ? (
-		<SimpleGrid mt="10px" columns={[1, 2, 3, 4]} spacing="40px">
+		<SimpleGrid mt="50px" columns={[1, 2, 3, 4]} spacing="40px">
 			{!message ? renderedList.map((vehicle, i) => <VehicleCard key={i} vehicle={vehicle} />) : message}
 		</SimpleGrid>
 	) : (
