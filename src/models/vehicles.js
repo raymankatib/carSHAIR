@@ -155,9 +155,10 @@ const vehicles = {
 			dispatch.vehicles.vehicleMake('');
 			dispatch.vehicles.vehicleMake('');
 			dispatch.vehicles.yearValue('');
+			dispatch.vehicles.message('');
 			dispatch.vehicles.vehicleType('');
-			dispatch.vehicles.priceRangeValues([120, 800]);
-			dispatch.vehicles.filterdDataResponse([]);
+			dispatch.vehicles.priceRangeValues(null);
+			dispatch.vehicles.filterdDataResponse(null);
 		}
 	})
 };

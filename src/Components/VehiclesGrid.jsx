@@ -51,7 +51,7 @@ const VehiclesGrid = ({
 	}, [JSON.stringify(filterdDataResponse)]);
 
 	useEffect(() => {
-		if (priceRangeValues && priceRangeValues.length > 1) {
+		if (priceRangeValues && priceRangeValues.length > 0) {
 			const vehiclesInPriceRange = renderedList.map((item) => {
 				if (item.price > priceRangeValues[0] && item.price < priceRangeValues[1]) {
 					item.inPriceRange = true;
@@ -64,7 +64,7 @@ const VehiclesGrid = ({
 		} else {
 			setRenderedList(vehiclesList);
 		}
-	}, [JSON.stringify(priceRangeValues)]);
+	}, [JSON.stringify(priceRangeValues), priceRangeValues]);
 
 	return !isVehiclesLoading ? (
 		<SimpleGrid mt="50px" columns={[1, 2, 3, 4]} spacing="40px">
