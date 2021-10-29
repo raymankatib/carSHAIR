@@ -8,8 +8,8 @@ import ClearFilter from './Components/ClearFilter';
 
 function App() {
 	return (
-		<Box p="5px" pt="1px">
-			<Box position="fixed" w="100%" d="flex" justifyContent="center" alignItems="center">
+		<Box p="5px" pt="1px" w="100%" d="flex" flexDir="column" justifyContent="center" alignItems="center">
+			<Box position="fixed" w="100%" top="0px" d="flex" justifyContent="center" alignItems="center">
 				<SearchBar />
 				<FilterMenu />
 				<ClearFilter />
