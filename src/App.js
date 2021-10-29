@@ -9,7 +9,7 @@ import ClearFilter from './Components/ClearFilter';
 function App() {
 	return (
 		<Box p="10px">
-			<Box w="50%" d="flex" justifyContent="space-between">
+			<Box d="flex" justifyContent="center" alignItems="center">
 				<SearchBar />
 				<FilterMenu />
 				<ClearFilter />
