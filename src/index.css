@@ -4,7 +4,6 @@ body {
 		'Droid Sans', 'Helvetica Neue', sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	scroll-behavior: smooth;
 }
 
 code {
@@ -16,4 +15,10 @@ code {
 	display: flex !important;
 	justify-content: space-evenly;
 	width: 50%;
+}
+
+.active {
+	background-color: teal;
+	color: white;
+	padding: 1px;
 }

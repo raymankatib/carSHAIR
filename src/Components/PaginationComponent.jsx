@@ -61,6 +61,7 @@ function PaginationComponent({ itemsPerPage, renderedList, message, filterdDataR
 				renderOnZeroPageCount={null}
 				itemsPerPage={4}
 				containerClassName="pagination"
+				activeClassName="active"
 			/>
 		</>
 	);
