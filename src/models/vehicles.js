@@ -35,6 +35,30 @@ const vehicles = {
 				...state,
 				userSearchValue: payload
 			};
+		},
+		vehicleMake(state, payload) {
+			return {
+				...state,
+				vehicleMake: payload
+			};
+		},
+		vehicleType(state, payload) {
+			return {
+				...state,
+				vehicleType: payload
+			};
+		},
+		yearValue(state, payload) {
+			return {
+				...state,
+				yearValue: payload
+			};
+		},
+		priceRangeValues(state, payload) {
+			return {
+				...state,
+				priceRangeValues: payload
+			};
 		}
 	},
 	effects: (dispatch) => ({
@@ -75,8 +99,20 @@ const vehicles = {
 				return dispatch.vehicles.error("Coudn't fetch vehicles list");
 			}
 		},
-		async setUserSerachValueAction(payload, rootState) {
+		setUserSerachValueAction(payload, rootState) {
 			return dispatch.vehicles.userSearchValue(payload);
+		},
+		setVehicleMakeAction(payload, rootState) {
+			return dispatch.vehicles.vehicleMake(payload);
+		},
+		setVehicleTypeAction(payload, rootState) {
+			return dispatch.vehicles.vehicleType(payload);
+		},
+		setYearValueAction(payload, rootState) {
+			return dispatch.vehicles.yearValue(payload);
+		},
+		setPriceRangeValuesAction(payload, rootState) {
+			return dispatch.vehicles.priceRangeValues(payload);
 		}
 	})
 };

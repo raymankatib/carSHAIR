@@ -1,3 +1,4 @@
+import _ from 'lodash';
 export const imagesList = [
 	'https://cdn.luxe.digital/media/2020/12/16175821/most-expensive-cars-2021-Maserati-MC20-luxe-digital%402x.jpg',
 	'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/2022-chevrolet-corvette-z06-1607016574.jpg?crop=0.737xw:0.738xh;0.181xw,0.218xh&resize=640:*',
@@ -13,3 +14,7 @@ export const colors = {
 export const carMakeList = ['TESLA', 'MAZDA', 'JAGUAR', 'MASERATI', 'TOYOTA', 'BMW'];
 
 export const carTypeList = ['CAR', 'TRUCK'];
+
+const max = new Date().getUTCFullYear() + 1; // added +1 to get 2022 cars
+const min = max - 23;
+export const yearRange = _.range(min, max + 1);

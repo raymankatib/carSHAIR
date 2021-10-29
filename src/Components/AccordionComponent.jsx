@@ -9,45 +9,53 @@ import {
 	RadioGroup,
 	Stack,
 	Radio,
-	SimpleGrid
+	SimpleGrid,
+	Select
 } from '@chakra-ui/react';
 import { TriangleDownIcon } from '@chakra-ui/icons';
+import RangeSliderComponent from './RangeSliderComponent';
 
-import { carMakeList, carTypeList } from '../Config/variables';
+import { carMakeList, carTypeList, yearRange } from '../Config/variables';
 
-const AccordionComponent = () => {
-	function handleChangeVehicleMake(value) {
-		console.log(value);
+const AccordionComponent = ({
+	vehicleMake,
+	vehicleType,
+	setVehicleMake,
+	setVehicleType,
+	yearValue,
+	setYearValue,
+	priceRangeValues
+}) => {
+	function handleChangeVehicleMake(e) {
+		const selectedValue = e.target.value;
+		setVehicleMake(selectedValue);
 	}
 	function handleChangeVehicleType(value) {
-		console.log(value);
+		setVehicleType(value);
+	}
+	function handleChangeYear(e) {
+		const selectedYear = Number(e.target.value);
+
+		setYearValue(selectedYear);
 	}
 
 	return (
 		<Accordion defaultIndex={[0]} allowMultiple>
-			<AccordionItem>
-				<h2>
-					<AccordionButton>
-						<Box flex="1" textAlign="left">
-							Make
-						</Box>
-						<TriangleDownIcon />
-					</AccordionButton>
-				</h2>
-				<AccordionPanel pb={4}>
-					<RadioGroup defaultValue="1" onChange={handleChangeVehicleMake}>
-						<Stack spacing={4} direction="row">
-							<SimpleGrid columns={3} spacing="10px">
-								{carMakeList.map((carMake) => (
-									<Radio value={carMake} cursor="pointer">
-										{carMake}
-									</Radio>
-								))}
-							</SimpleGrid>
-						</Stack>
-					</RadioGroup>
-				</AccordionPanel>
-			</AccordionItem>
+			<Select defaultValue={vehicleMake} mb="5px" placeholder="Make" onChange={handleChangeVehicleMake}>
+				{carMakeList.map((carMake, i) => (
+					<option key={i} value={carMake}>
+						{carMake}
+					</option>
+				))}
+			</Select>
+
+			<Select defaultValue={yearValue} mb="5px" placeholder="Year" onChange={handleChangeYear}>
+				{yearRange.map((year, i) => (
+					<option key={i} value={year}>
+						{year}
+					</option>
+				))}
+			</Select>
 
 			<AccordionItem>
 				<h2>
@@ -59,11 +67,11 @@ const AccordionComponent = () => {
 					</AccordionButton>
 				</h2>
 				<AccordionPanel pb={4}>
-					<RadioGroup defaultValue="1" onChange={handleChangeVehicleType}>
+					<RadioGroup defaultValue={vehicleType} onChange={handleChangeVehicleType}>
 						<Stack spacing={4} direction="row">
 							<SimpleGrid columns={3} spacing="10px">
-								{carTypeList.map((carType) => (
-									<Radio value={carType} cursor="pointer">
+								{carTypeList.map((carType, i) => (
+									<Radio key={i} value={carType} cursor="pointer">
 										{carType}
 									</Radio>
 								))}
@@ -72,12 +80,35 @@ const AccordionComponent = () => {
 					</RadioGroup>
 				</AccordionPanel>
 			</AccordionItem>
+
+			<AccordionItem>
+				<h2>
+					<AccordionButton>
+						<Box flex="1" textAlign="left">
+							{priceRangeValues ? `Price ${priceRangeValues[0]}$ - ${priceRangeValues[1]}$` : 'Price'}
+						</Box>
+						<TriangleDownIcon />
+					</AccordionButton>
+				</h2>
+				<AccordionPanel pb={4}>
+					<RangeSliderComponent />
+				</AccordionPanel>
+			</AccordionItem>
 		</Accordion>
 	);
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = ({ vehicles: { vehicleMake, vehicleType, yearValue, priceRangeValues } }) => ({
+	vehicleMake: vehicleMake,
+	vehicleType: vehicleType,
+	yearValue: yearValue,
+	priceRangeValues: priceRangeValues
+});
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = ({ vehicles: { setVehicleMakeAction, setVehicleTypeAction, setYearValueAction } }) => ({
+	setVehicleMake: setVehicleMakeAction,
+	setVehicleType: setVehicleTypeAction,
+	setYearValue: setYearValueAction
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccordionComponent);
